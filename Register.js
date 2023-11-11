@@ -16,8 +16,8 @@ const Register = (props) => {
       email: email,
       password: password,
     }
-    axios.post('http://localhost:3000/register', user).then((response) => {
-      console.log('response');
+    axios.post('http://192.168.29.195:3000/register', user).then((response) => {
+      console.log(response.data);
       Alert.alert("Registration successful","you have bee registered successfully");
       setName("");
       setEmail("");
