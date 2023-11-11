@@ -32,6 +32,8 @@ const User = require('./models/user');
 // endpoint to register a user in the backend
 app.post("/register", async(req, res) => {
     try{
+        console.log("Received registration request:", req.body);
+
         const {name, email, password} = req.body;
 
         const existingUser = await User.findOne({email});
@@ -52,4 +54,4 @@ app.post("/register", async(req, res) => {
         console.log("error registering user", error);
         res.status(500).json({message: 'error registering user'});
     }
-})
+});

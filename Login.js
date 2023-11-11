@@ -1,6 +1,5 @@
 import { View, Text, Button, StatusBar, Image, KeyboardAvoidingView, TextInput, Pressable } from 'react-native'
 import React, { useState } from 'react'
-import Register from './Register'
 
 import { MaterialIcons } from '@expo/vector-icons';
 

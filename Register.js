@@ -11,7 +11,7 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
 
   const handleRegister = () => {
-    const User = {
+    const user = {
       name: name,
       email: email,
       password: password,
@@ -70,8 +70,8 @@ const Register = (props) => {
               placeholder="enter your name"
               placeholderTextColor={"gray"}
               style={{ color: "gray", marginVertical: 5, width: 300 }}
-              value={email}
-              onChangeText={(text) => setEmail(text)}
+              value={name}
+              onChangeText={(text) => setName(text)}
             />
           </View>
         </View>
