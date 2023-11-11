@@ -1,11 +1,37 @@
-import { View, Text, Button, StatusBar, Image, KeyboardAvoidingView, TextInput, Pressable } from 'react-native'
+import { View, Text, Button, StatusBar, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from 'react-native'
 import React, { useState } from 'react'
 
 import { MaterialIcons } from '@expo/vector-icons';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native';
 
 const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+
+    // Use the `useNavigation` hook to get the `navigation` object
+    const navigation = useNavigation();
+    const handleLogin = () => {
+        const user = {
+            email: email,
+            password: password,
+        }
+
+        axios.post('http://192.168.29.195:3000/login', user).then((response) => {
+            console.log(response);
+            const token = response.data.token;
+            AsyncStorage.setItem('authToken', token);
+
+            // Navigate to the home screen after successful login
+            Alert.alert("Login successfully");
+            navigation.navigate('Home');
+        }).catch((error) => {
+            console.log('error', error);
+        })
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
             {/* <StatusBar/> */}
@@ -37,7 +63,7 @@ const Login = (props) => {
                     <Text style={{fontWeight:'500', color:'#007FFF'}}> Forgot password </Text>
                 </View>
 
-                <Pressable style={{width:200, backgroundColor:'black', padding:15, marginTop:40, marginLeft:'auto', marginRight:'auto', borderRadius:6}}>
+                <Pressable onPress={handleLogin} style={{width:200, backgroundColor:'black', padding:15, marginTop:40, marginLeft:'auto', marginRight:'auto', borderRadius:6}}>
                     <Text style={{color:'white', fontWeight:'bold', fontSize:16, textAlign:'center'}}> Login </Text>
                 </Pressable>
 

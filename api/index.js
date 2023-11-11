@@ -38,23 +38,51 @@ app.post("/register", async(req, res) => {
 
         const existingUser = await User.findOne({email});
         if(existingUser){
-            return res.status(400),json({message:"Email already registered"});
+            return res.status(400).json({message:"Email already registered"});
         }
         // create a new User 
         const newUser = new User({name, email, password});
 
         // generate and store the verification token
         newUser.verificationToken = crypto.randomBytes(20).toString('hex');
-
-        // send the verification email to the user
-        // sendVerificationEmail(newUser.email, newUser.verificationToken);
         
         // save the user to the database
         await newUser.save();
         res.status(200).json({message:"Registration successful, please check your email for verification"});
-        
+
     } catch(error){
         console.log("error registering user", error);
         res.status(500).json({message: 'error registering user'});
+    }
+});
+
+
+// generation of secret key(Login)
+const generateSecretKey = () => {
+    const secretKey = crypto.randomBytes(32).toString("hex");
+    return secretKey;
+};
+
+const secretKey = generateSecretKey();
+
+app.post("/login", async (req, res) => {
+    try{
+        const {email, password} = req.body;
+        console.log("Login request received for email:", email);
+        
+        const user = await User.findOne( {email} );
+        if(!user)
+        {
+            return res.status(404).json({ message: "Invalid email" });
+        }
+
+        if(user.password != password)
+        {
+            return res.status(404).json({ message: "Invalid Password" });
+        }
+        const token = jwt.sign({ userId: user._id }, secretKey);
+        res.status(200).json({ token });
+    } catch(error){
+        res.status(500).json({ message: "Login failed" });
     }
 });
