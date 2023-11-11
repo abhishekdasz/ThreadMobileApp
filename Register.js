@@ -1,6 +1,7 @@
-import { View, Text, Button, StatusBar, Image, KeyboardAvoidingView, TextInput, Pressable } from 'react-native'
-import React, { useState } from 'react'
-import Login from './Login'
+import { View, Text, Button, StatusBar, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from 'react-native'
+import React, { useState } from 'react';
+import Login from './Login';
+import axios from 'axios';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -8,6 +9,24 @@ const Register = (props) => {
   const [name, setName] = useState("");  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleRegister = () => {
+    const User = {
+      name: name,
+      email: email,
+      password: password,
+    }
+    axios.post('http://localhost:3000/register', user).then((response) => {
+      console.log('response');
+      Alert.alert("Registration successful","you have bee registered successfully");
+      setName("");
+      setEmail("");
+      setPassword("");
+    }).catch((error) => {
+      Alert.alert("Registration failed", "An error occurred during registration");
+      console.log("error", error);
+    });
+  }
   return (
     <View style={{ flex: 1, backgroundColor: "white", alignItems: "center" }}>
       {/* <StatusBar/> */}
@@ -119,6 +138,7 @@ const Register = (props) => {
         {/* password inputs ends */}
 
         <Pressable
+        onPress={handleRegister}
           style={{
             width: 200,
             backgroundColor: "black",

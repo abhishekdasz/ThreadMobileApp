@@ -24,4 +24,32 @@ mongoose.connect('mongodb+srv://abhishekdaszy:9437barun@threadapp.suzuzg7.mongod
 
 app.listen(port, () => {
     console.log("Server is running on port 3000");
+});
+
+const User = require('./models/user');
+// const Post = require('./models/post');
+
+// endpoint to register a user in the backend
+app.post("/register", async(req, res) => {
+    try{
+        const {name, email, password} = req.body;
+
+        const existingUser = await User.findOne({email});
+        if(existingUser){
+            return res.status(400),json({message:"Email already registered"});
+        }
+        // create a new User 
+        const newUser = new User({name, email, password});
+
+        // generate and store the verification token
+        newUser.verificationToken = crypto.randomBytes(20).toString('hex');
+
+        // send the verification email to the user
+        sendVerificationEmail(newUser.email, newUser.verificationToken);
+
+        res.status(200).json({message:"Registration successful, please check your email for verification"});
+    } catch(error){
+        console.log("error registering user", error);
+        res.status(500).json({message: 'error registering user'});
+    }
 })
