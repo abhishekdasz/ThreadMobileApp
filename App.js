@@ -6,15 +6,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-import Home from './Home';
+import Login from './Login';
 import Register from './Register';
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Login" component={Login} options={{headerShown:false}} />
+        <Stack.Screen name="Register" component={Register} options={{headerShown:false}}  />
       </Stack.Navigator>
     </NavigationContainer>
   );
