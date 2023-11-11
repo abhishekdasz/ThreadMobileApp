@@ -5,6 +5,7 @@ import Login from './Login'
 import { MaterialIcons } from '@expo/vector-icons';
 
 const Register = (props) => {
+  const [name, setName] = useState("");  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -41,13 +42,13 @@ const Register = (props) => {
             }}
           >
             <MaterialIcons
-              name="email"
+              name="person"
               size={24}
               color="gray"
               style={{ marginLeft: 8 }}
             />
             <TextInput
-              placeholder="enter your email"
+              placeholder="enter your name"
               placeholderTextColor={"gray"}
               style={{ color: "gray", marginVertical: 5, width: 300 }}
               value={email}
@@ -58,7 +59,7 @@ const Register = (props) => {
         {/* Name input ends */}
 
         {/* email input starts */}
-        <View style={{ marginTop: 40 }}>
+        <View style={{ marginTop: 30 }}>
           <View
             style={{
               flexDirection: "row",
@@ -87,7 +88,7 @@ const Register = (props) => {
         </View>
         {/* email input ends */}
 
-        {/* password inputs starts here */}
+        {/* password inputs starts */}
         <View style={{ marginTop: 30 }}>
           <View
             style={{
@@ -115,28 +116,14 @@ const Register = (props) => {
             />
           </View>
         </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 12,
-          }}
-        >
-          <Text> Keep me logged in </Text>
-          <Text style={{ fontWeight: "500", color: "#007FFF" }}>
-            {" "}
-            Forgot password{" "}
-          </Text>
-        </View>
+        {/* password inputs ends */}
 
         <Pressable
           style={{
             width: 200,
             backgroundColor: "black",
             padding: 15,
-            marginTop: 50,
+            marginTop: 40,
             marginLeft: "auto",
             marginRight: "auto",
             borderRadius: 6,

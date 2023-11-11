@@ -38,7 +38,7 @@ const Login = (props) => {
                     <Text style={{fontWeight:'500', color:'#007FFF'}}> Forgot password </Text>
                 </View>
 
-                <Pressable style={{width:200, backgroundColor:'black', padding:15, marginTop:50, marginLeft:'auto', marginRight:'auto', borderRadius:6}}>
+                <Pressable style={{width:200, backgroundColor:'black', padding:15, marginTop:40, marginLeft:'auto', marginRight:'auto', borderRadius:6}}>
                     <Text style={{color:'white', fontWeight:'bold', fontSize:16, textAlign:'center'}}> Login </Text>
                 </Pressable>
 
