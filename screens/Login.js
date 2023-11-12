@@ -1,5 +1,5 @@
 import { View, Text, Button, StatusBar, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
@@ -10,9 +10,27 @@ const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-
     // Use the `useNavigation` hook to get the `navigation` object
     const navigation = useNavigation();
+
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            try{
+                const token = await AsyncStorage.getItem('authToken');
+    
+                if(token)
+                {
+                    setTimeout(() =>{
+                        navigation.replace("Main");
+                    }, 400)
+                }
+            } catch(error){
+                console.log("error", error);
+            }
+        }
+        checkLoginStatus();
+    }, []);
+
     const handleLogin = () => {
         const user = {
             email: email,
@@ -29,6 +47,7 @@ const Login = (props) => {
             navigation.navigate('Home');
         }).catch((error) => {
             console.log('error', error);
+            Alert.alert("Login error");
         })
     }
 
