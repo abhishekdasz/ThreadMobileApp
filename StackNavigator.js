@@ -73,13 +73,14 @@ const StackNavigator = () => {
       }
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+      {/* <Stack.Navigator initialRouteName="Login"> */}
+      <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={BottomTabs} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )
 }
 
-export default StackNavigator
+export default StackNavigator;

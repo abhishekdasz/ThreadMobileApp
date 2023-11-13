@@ -17,7 +17,7 @@ const Login = (props) => {
         const checkLoginStatus = async () => {
             try{
                 const token = await AsyncStorage.getItem('authToken');
-    
+                
                 if(token)
                 {
                     setTimeout(() =>{
@@ -44,7 +44,7 @@ const Login = (props) => {
 
             // Navigate to the home screen after successful login
             Alert.alert("Login successfully");
-            navigation.navigate('Home');
+            navigation.navigate('Main');
         }).catch((error) => {
             console.log('error', error);
             Alert.alert("Login error");

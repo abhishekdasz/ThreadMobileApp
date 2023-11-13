@@ -81,8 +81,45 @@ app.post("/login", async (req, res) => {
             return res.status(404).json({ message: "Invalid Password" });
         }
         const token = jwt.sign({ userId: user._id }, secretKey);
+        console.log('Token:', token);
+
         res.status(200).json({ token });
     } catch(error){
         res.status(500).json({ message: "Login failed" });
+    }
+});
+
+
+// endpoint to access all the users except the logged in the user
+app.get("/user/:userId", (req, res) => {
+    try {
+      const loggedInUserId = req.params.userId;
+  
+      User.find({ _id: { $ne: loggedInUserId } })
+        .then((users) => {
+          res.status(200).json(users);
+        })
+        .catch((error) => {
+          console.log("Error: ", error);
+          res.status(500).json("errror");
+        });
+    } catch (error) {
+      res.status(500).json({ message: "error getting the users" });
+    }
+});
+
+app.get("/profile/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+  
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      return res.status(200).json({ user });
+    } catch (error) {
+      res.status(500).json({ message: "Error while getting the profile" });
     }
 });
