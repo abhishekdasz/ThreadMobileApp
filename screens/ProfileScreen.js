@@ -47,8 +47,10 @@ const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.headerUsername}>{userDetails?.name}</Text>
-        <Text style={styles.headerSubtitle}>Threads.net</Text>
+        <Text style={styles.headerUsername}>abhishek_das</Text>
+        <View style={styles.headerSubtitle}>
+          <Text>Threads.net</Text>
+        </View>
       </View>
 
       <View style={styles.profileContainer}>
@@ -83,16 +85,15 @@ const ProfileScreen = () => {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <Pressable
-          style={styles.editProfileButton}
-          onPress={() => navigation.navigate("EditProfile")}
-        >
-          <Text style={styles.editProfileText}>Edit Profile</Text>
-        </Pressable>
+        <View style={styles.button}>
+          <Text>Edit Profile</Text>
+        </View>
 
-        <Pressable style={styles.logoutButton} onPress={logout}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </Pressable>
+        <View style={styles.button}>
+          <Pressable onPress={logout}>
+            <Text>Logout</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -101,22 +102,26 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     marginTop: 40,
   },
   headerContainer: {
     padding: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
   },
   headerUsername: {
     fontSize: 20,
     fontWeight: "bold",
   },
   headerSubtitle: {
-    color: "gray",
-    fontSize: 14,
+    paddingHorizontal: 7,
+    paddingVertical: 5,
+    borderRadius: 8,
+    backgroundColor: "#D0D0D0",
   },
   profileContainer: {
-    padding: 15,
+    paddingHorizontal: 15,
   },
   profileHeader: {
     flexDirection: "row",
@@ -146,25 +151,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginTop: 20,
   },
-  editProfileButton: {
-    padding: 8,
+  button: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    borderColor: "#D0D0D0",
     borderWidth: 1,
-    borderColor: "#ddd",
     borderRadius: 5,
-  },
-  logoutButton: {
-    backgroundColor: "#007AFF",
-    padding: 8,
-    borderRadius: 5,
-    marginLeft: 10,
+    marginHorizontal: 5,
   },
   buttonText: {
-    color: "#fff",
     fontWeight: "bold",
-  },
-  editProfileText: {
-    fontSize: 14,
-    color: "#007AFF",
   },
   statsContainer: {
     flexDirection: "row",
