@@ -83,43 +83,53 @@ app.post("/login", async (req, res) => {
         const token = jwt.sign({ userId: user._id }, secretKey);
         console.log('Token:', token);
 
-        res.status(200).json({ token });
+        res.status(200).json({ token, userId: user._id });
     } catch(error){
         res.status(500).json({ message: "Login failed" });
     }
 });
 
 
-// endpoint to access all the users except the logged in the user
-app.get("/user/:userId", (req, res) => {
-    try {
-      const loggedInUserId = req.params.userId;
+// app.get("/profile/:userId", async (req, res) => {
+//     try {
+//       const userId = req.params.userId;
   
-      User.find({ _id: { $ne: loggedInUserId } })
-        .then((users) => {
-          res.status(200).json(users);
-        })
-        .catch((error) => {
-          console.log("Error: ", error);
-          res.status(500).json("errror");
-        });
-    } catch (error) {
-      res.status(500).json({ message: "error getting the users" });
-    }
-});
-
-app.get("/profile/:userId", async (req, res) => {
+//       const user = await User.findById(userId);
+  
+//       if (!user) {
+//         return res.status(404).json({ message: "User not found" });
+//       }
+  
+//       return res.status(200).json({ user });
+//     } catch (error) {
+//       res.status(500).json({ message: "Error while getting the profile" });
+//     }
+//   });
+  
+  app.get("/profile/:userId", async (req, res) => {
     try {
       const userId = req.params.userId;
   
+      // Decode the JWT to get the user's ID
+      // Note: The secretKey used in jwt.verify should match the one used during login
+      const decoded = jwt.verify(req.headers.authorization.split(" ")[1], secretKey);
+  
+      // Ensure that the decoded user ID matches the requested user ID
+      if (decoded.userId !== userId) {
+        return res.status(403).json({ message: "Unauthorized access" });
+      }
+  
+      // Query the database to get the user's details
       const user = await User.findById(userId);
   
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
   
+      // Send the user details in the response
       return res.status(200).json({ user });
     } catch (error) {
       res.status(500).json({ message: "Error while getting the profile" });
     }
 });
+  

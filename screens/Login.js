@@ -35,21 +35,21 @@ const Login = (props) => {
         const user = {
             email: email,
             password: password,
-        }
-
+        };
+    
         axios.post('http://192.168.29.195:3000/login', user).then((response) => {
-            console.log(response);
-            const token = response.data.token;
+            const { token, userId } = response.data;
             AsyncStorage.setItem('authToken', token);
-
-            // Navigate to the home screen after successful login
+            AsyncStorage.setItem('userId', userId);
+    
             Alert.alert("Login successfully");
-            navigation.navigate('Main');
+            navigation.navigate('Main', { userId });
         }).catch((error) => {
             console.log('error', error);
             Alert.alert("Login error");
-        })
-    }
+        });
+    };
+    
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
