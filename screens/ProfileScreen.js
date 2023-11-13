@@ -46,6 +46,11 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerUsername}>{userDetails?.name}</Text>
+        <Text style={styles.headerSubtitle}>Threads.net</Text>
+      </View>
+
       <View style={styles.profileContainer}>
         <View style={styles.profileHeader}>
           <Image
@@ -98,6 +103,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     marginTop: 40,
+  },
+  headerContainer: {
+    padding: 15,
+  },
+  headerUsername: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  headerSubtitle: {
+    color: "gray",
+    fontSize: 14,
   },
   profileContainer: {
     padding: 15,
