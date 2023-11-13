@@ -33,7 +33,11 @@ Thread App is a full-stack social media application where users can connect with
    git clone https://github.com/your-username/thread-app.git
    cd thread-app
 
-
-
-
+### Screenshots:
+Registration Screen
+![Signup](https://github.com/abhishekdasz/ThreadMobileApp/assets/87275238/99227156-56a4-4de4-bfd4-b7e612325b80)
+Login Screen:
+![Signin](https://github.com/abhishekdasz/ThreadMobileApp/assets/87275238/587d1ccf-59d5-40c4-9cf7-abad0a2e26ef)
+Profile Page Screen:
+![Profile Page](https://github.com/abhishekdasz/ThreadMobileApp/assets/87275238/610f043f-9a0c-49cd-9fff-21772edc9322)
 
