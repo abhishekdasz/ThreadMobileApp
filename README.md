@@ -1,4 +1,4 @@
-# Thread App
+# Thread Fullstack Mobile App
 
 Thread App is a full-stack social media application where users can connect with each other by sharing posts and engaging in discussions.
 
