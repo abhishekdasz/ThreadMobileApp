@@ -1,30 +1,38 @@
-import React, { useEffect, useState, useContext } from "react";
-import { View, Text, Image, Pressable, StyleSheet } from "react-native";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { View, Text, Pressable, Image, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import { UserType } from "../UserContext";
 
 const ProfileScreen = () => {
-  const [user, setUser] = useState("");
+  const [userDetails, setUserDetails] = useState(null);
   const navigation = useNavigation();
-  const { userId, setUserId } = useContext(UserType);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/profile/${userId}`
-        );
-        const { user } = response.data;
-        setUser(user);
+        const authToken = await AsyncStorage.getItem("authToken");
+        const userId = await AsyncStorage.getItem("userId");
+
+        if (authToken && userId) {
+          const response = await axios.get(
+            `http://192.168.29.195:3000/profile/${userId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          );
+
+          setUserDetails(response.data.user);
+        }
       } catch (error) {
-        console.log("error", error);
+        console.log("Error fetching user details:", error);
       }
     };
 
-    fetchProfile();
-  }, [userId]);
+    fetchUserDetails();
+  }, []);
 
   const logout = () => {
     clearAuthToken();
@@ -38,41 +46,42 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        <Image
-          style={styles.profileImage}
-          source={{
-            uri: "https://cdn-icons-png.flaticon.com/128/149/149071.png",
-          }}
-        />
-        <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>{user?.name}</Text>
-          <Text style={styles.subtitle}>Threads.net</Text>
+      <Text style={styles.headerText}>Profile</Text>
+
+      {userDetails && (
+        <View style={styles.profileContainer}>
+          <View style={styles.profileHeader}>
+            <Image
+              style={styles.profileImage}
+              source={{
+                uri: "https://cdn-icons-png.flaticon.com/128/149/149071.png",
+              }}
+            />
+            <View style={styles.profileInfo}>
+              <Text style={styles.profileName}>{userDetails.name}</Text>
+              <Text style={styles.profileSubtitle}>Threads.net</Text>
+            </View>
+          </View>
+
+          <View style={styles.profileDetails}>
+            <Text>{userDetails.email} </Text>
+            <Text style={styles.bioText}>
+              {userDetails.bio || "Tech Enthusiast || Nature Lover"}
+            </Text>
+            <Text>{userDetails.followers || 0}0 followers</Text>
+          </View>
         </View>
-      </View>
-
-      <View style={styles.detailsContainer}>
-        <Text style={styles.detailTitle}>Education:</Text>
-        <Text style={styles.detailText}>BTech.</Text>
-
-        <Text style={styles.detailTitle}>Interests:</Text>
-        <Text style={styles.detailText}>Movie Buff | Musical Nerd</Text>
-        <Text style={styles.detailText}>Love Yourself</Text>
-      </View>
-
-      <Text style={styles.followersText}>
-        {user?.followers?.length} followers
-      </Text>
+      )}
 
       <View style={styles.buttonContainer}>
         <Pressable
-          style={styles.button}
+          style={styles.profileButton}
           onPress={() => navigation.navigate("EditProfile")}
         >
           <Text style={styles.buttonText}>Edit Profile</Text>
         </Pressable>
 
-        <Pressable onPress={logout} style={styles.button}>
+        <Pressable style={styles.profileButton} onPress={logout}>
           <Text style={styles.buttonText}>Logout</Text>
         </Pressable>
       </View>
@@ -82,64 +91,74 @@ const ProfileScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 55,
     padding: 15,
+    flex: 1,
+    backgroundColor: "#fff",
+    marginTop: 35,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
   profileContainer: {
+    marginBottom: 20,
+  },
+  profileHeader: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 10,
   },
   profileImage: {
     width: 60,
     height: 60,
     borderRadius: 30,
-    resizeMode: "contain",
+    resizeMode: "cover",
   },
   profileInfo: {
-    marginLeft: 15,
+    marginLeft: 10,
   },
   profileName: {
     fontSize: 20,
     fontWeight: "bold",
   },
-  subtitle: {
+  profileSubtitle: {
     color: "gray",
   },
-  detailsContainer: {
+  profileDetails: {
+    marginTop: 15,
+  },
+  detailHeader: {
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  bioContainer: {
     marginTop: 20,
   },
-  detailTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-  detailText: {
-    fontSize: 15,
-    fontWeight: "400",
-  },
-  followersText: {
+  bioText: {
     color: "gray",
-    fontSize: 15,
-    marginTop: 10,
+  },
+  followerContainer: {
+    flexDirection: "row",
+    marginTop: 15,
+    color: "gray",
   },
   buttonContainer: {
     flexDirection: "row",
-    alignItems: "center",
-    marginTop: 20,
+    justifyContent: "space-between",
   },
-  button: {
+  profileButton: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 15,
-    backgroundColor: "black",
-    borderRadius: 6,
-    marginLeft: 10,
+    padding: 10,
+    borderColor: "#D0D0D0",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginHorizontal: 5,
   },
   buttonText: {
-    color: "white",
     fontWeight: "bold",
-    fontSize: 16,
   },
 });
 
