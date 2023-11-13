@@ -46,42 +46,46 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Profile</Text>
-
-      {userDetails && (
-        <View style={styles.profileContainer}>
-          <View style={styles.profileHeader}>
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/128/149/149071.png",
-              }}
-            />
-            <View style={styles.profileInfo}>
-              <Text style={styles.profileName}>{userDetails.name}</Text>
-              <Text style={styles.profileSubtitle}>Threads.net</Text>
-            </View>
-          </View>
+      <View style={styles.profileContainer}>
+        <View style={styles.profileHeader}>
+          <Image
+            style={styles.profileImage}
+            source={{
+              uri: "https://cdn-icons-png.flaticon.com/128/149/149071.png",
+            }}
+          />
 
           <View style={styles.profileDetails}>
-            <Text>{userDetails.email} </Text>
-            <Text style={styles.bioText}>
-              {userDetails.bio || "Tech Enthusiast || Nature Lover"}
+            <View style={styles.nameContainer}>
+              <Text style={styles.profileName}>{userDetails?.name}</Text>
+            </View>
+
+            <View style={styles.statsContainer}>
+              <Text style={styles.statsText}>
+                {userDetails?.followers?.length || 0} followers
+              </Text>
+              <Text style={styles.statsText}>{"  "}</Text>
+              <Text style={styles.statsText}>
+                {userDetails?.posts?.length || 0} posts
+              </Text>
+            </View>
+
+            <Text style={styles.bio}>
+              {userDetails?.bio || "Tech Enthusiast || Nature Lover"}
             </Text>
-            <Text>{userDetails.followers || 0}0 followers</Text>
           </View>
         </View>
-      )}
+      </View>
 
-      <View style={styles.buttonContainer}>
+      <View style={styles.buttonsContainer}>
         <Pressable
-          style={styles.profileButton}
+          style={styles.editProfileButton}
           onPress={() => navigation.navigate("EditProfile")}
         >
-          <Text style={styles.buttonText}>Edit Profile</Text>
+          <Text style={styles.editProfileText}>Edit Profile</Text>
         </Pressable>
 
-        <Pressable style={styles.profileButton} onPress={logout}>
+        <Pressable style={styles.logoutButton} onPress={logout}>
           <Text style={styles.buttonText}>Logout</Text>
         </Pressable>
       </View>
@@ -91,74 +95,72 @@ const ProfileScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
     flex: 1,
     backgroundColor: "#fff",
-    marginTop: 35,
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
+    marginTop: 40,
   },
   profileContainer: {
-    marginBottom: 20,
+    padding: 15,
   },
   profileHeader: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
   },
   profileImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    resizeMode: "cover",
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
-  profileInfo: {
-    marginLeft: 10,
+  profileDetails: {
+    marginLeft: 20,
+  },
+  nameContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   profileName: {
     fontSize: 20,
     fontWeight: "bold",
   },
-  profileSubtitle: {
-    color: "gray",
-  },
-  profileDetails: {
-    marginTop: 15,
-  },
-  detailHeader: {
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  bioContainer: {
+  buttonsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 15,
     marginTop: 20,
   },
-  bioText: {
-    color: "gray",
-  },
-  followerContainer: {
-    flexDirection: "row",
-    marginTop: 15,
-    color: "gray",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  profileButton: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    borderColor: "#D0D0D0",
+  editProfileButton: {
+    padding: 8,
     borderWidth: 1,
+    borderColor: "#ddd",
     borderRadius: 5,
-    marginHorizontal: 5,
+  },
+  logoutButton: {
+    backgroundColor: "#007AFF",
+    padding: 8,
+    borderRadius: 5,
+    marginLeft: 10,
   },
   buttonText: {
+    color: "#fff",
     fontWeight: "bold",
+  },
+  editProfileText: {
+    fontSize: 14,
+    color: "#007AFF",
+  },
+  statsContainer: {
+    flexDirection: "row",
+    marginTop: 8,
+  },
+  statsText: {
+    color: "gray",
+  },
+  bio: {
+    fontSize: 14,
+    color: "gray",
+    marginTop: 8,
   },
 });
 
